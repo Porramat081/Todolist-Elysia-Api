@@ -14,23 +14,24 @@ datasource db {
 }
 
 model Users {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  email     String    @unique
-  password  String
-  username  String    @unique
-  tasks     Tasks[]
-  status    String    @default("active") //active inactive
-  createdAt DateTime  @default(now())
-  updateAt  DateTime?
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  password   String
+  username   String   @unique
+  tasks      Tasks[]
+  status     String   @default("waiting") //active waiting inactive
+  verifyCode String? //can be null
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @default(now())
 }
 
 model Tasks {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   detail    String?
-  owner     Users     @relation(fields: [ownerId], references: [id])
-  ownerId   String    @db.ObjectId
-  status    String    @default("incomplete") //complete , incomplete
-  createdAt DateTime  @default(now())
-  updateAt  DateTime?
+  owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String   @db.ObjectId
+  status    String   @default("incomplete") //complete , incomplete
+  createdAt DateTime @default(now())
+  updateAt  DateTime @default(now())
 }

@@ -1,11 +1,12 @@
 import { Elysia } from "elysia";
 import { env } from "bun";
 import cors from "@elysiajs/cors";
-import { corsConfig, jwtConfig } from "../config/config";
 import swagger from "@elysiajs/swagger";
 import { jwt } from "@elysiajs/jwt";
 import { userRoute } from "./routes";
 import { checkSignIn } from "./middlewares";
+import { taskRoute } from "./routes/task.route";
+import { corsConfig, jwtConfig } from "../config/config";
 
 const app = new Elysia()
   .use(cors(corsConfig))
@@ -15,9 +16,9 @@ const app = new Elysia()
       path: "/document",
     })
   )
-  .get("/", () => "Hello Elysia")
   .guard({ beforeHandle: checkSignIn })
   .group("/user", userRoute)
+  .group("/task", taskRoute)
   .listen(Number(env.PORT));
 
 console.log(
