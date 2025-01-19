@@ -8,4 +8,5 @@ export const corsConfig = {
 export const jwtConfig = {
   name: env.JWT_NAME,
   secret: env.JWT_SECRET || "secret",
+  exp: "7d",
 };

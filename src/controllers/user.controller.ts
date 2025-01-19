@@ -104,4 +104,27 @@ export default {
       return error;
     }
   },
+  getProfile: async ({ request }: any) => {
+    try {
+      const userId = request.user_id;
+      if (!userId) {
+        return { message: "have no user", statusGetUser: false };
+      }
+      const user = await prisma.users.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          username: true,
+          email: true,
+          status: true,
+          tags: true,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      return error;
+    }
+  },
 };

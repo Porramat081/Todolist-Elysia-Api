@@ -10,4 +10,5 @@ export const userRoute = (app: {
   app
     .post("/verify", userController.verify)
     .post("/signUp", userController.create)
-    .post("/login", userController.login);
+    .post("/login", userController.login)
+    .get("/get-profile", userController.getProfile);

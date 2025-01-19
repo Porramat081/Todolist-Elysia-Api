@@ -18,7 +18,7 @@ model Users {
   email      String   @unique
   password   String
   username   String   @unique
-  tasks      Tasks[]
+  tags       Tags[]
   status     String   @default("waiting") //active waiting inactive
   verifyCode String? //can be null
   createdAt  DateTime @default(now())
@@ -29,9 +29,20 @@ model Tasks {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   detail    String?
+  tag       Tags     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId     String   @db.ObjectId
+  status    String   @default("incomplete") //complete , incomplete
+  createdAt DateTime @default(now())
+  updateAt  DateTime @default(now())
+}
+
+model Tags {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  orderTag  Int
+  tasks     Tasks[]
   owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String   @db.ObjectId
-  status    String   @default("incomplete") //complete , incomplete
   createdAt DateTime @default(now())
   updateAt  DateTime @default(now())
 }
